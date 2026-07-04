@@ -1,37 +1,33 @@
-# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
-# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
-
 name: Node.js Package
+
+# Publishes the package to npm (npmjs.com) when you publish a GitHub Release.
+# One-time setup:
+#   1. Create an npm account and an "Automation" access token (npmjs.com -> Access Tokens).
+#   2. Add it to this repo as the secret NPM_TOKEN (Settings -> Secrets and variables -> Actions).
+#   3. Bump "version" in package.json before each Release (npm refuses to republish a version).
 
 on:
   workflow_dispatch:
   release:
-    types: [created]
+    types: [published]
   push:
     tags:
       - 'v*'
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write        # enables npm provenance attestation
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
       - run: npm ci
       - run: npm test
-
-  publish-npm:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          registry-url: https://registry.npmjs.org/
-      - run: npm ci
-      - run: npm publish
+      - run: npm publish --provenance --access public
         env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
