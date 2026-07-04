@@ -1,0 +1,32 @@
+{
+  "name": "uaregistry",
+  "version": "1.0.0",
+  "description": "Dependency-free Node.js client for the UARegistry EPP service (RFC 5730-5734 over TLS).",
+  "keywords": ["epp", "registry", "domains", "rfc5730", "dnssec", "uaregistry"],
+  "license": "MIT",
+  "author": "UARegistry",
+  "homepage": "https://github.com/uaregistry/node-sdk",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uaregistry/node-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/uaregistry/node-sdk/issues"
+  },
+  "main": "index.js",
+  "types": "index.d.ts",
+  "engines": {
+    "node": ">=16"
+  },
+  "files": [
+    "src/",
+    "index.js",
+    "index.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node test/offline.test.js"
+  },
+  "dependencies": {}
+}
