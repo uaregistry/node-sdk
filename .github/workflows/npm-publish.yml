@@ -26,7 +26,8 @@ jobs:
         with:
           node-version: "20"
           registry-url: "https://registry.npmjs.org"
-      - run: npm ci
+      # No install step: the package has zero dependencies, so there is nothing to install
+      # (and no package-lock.json / npm ci is required).
       - run: npm test
       - run: npm publish --provenance --access public
         env:
