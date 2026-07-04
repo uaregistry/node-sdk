@@ -4,8 +4,12 @@
 name: Node.js Package
 
 on:
+  workflow_dispatch:
   release:
     types: [created]
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   build:
